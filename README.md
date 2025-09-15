@@ -9,7 +9,7 @@
 [![Crates.io](https://img.shields.io/crates/v/zarrs-cache.svg)](https://crates.io/crates/zarrs-cache)
 [![Documentation](https://docs.rs/zarrs-cache/badge.svg)](https://docs.rs/zarrs-cache)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](#license)
-[![Build Status](https://img.shields.io/github/workflow/status/luthfiimanal/zarrs-cache/CI)](https://github.com/luthfiimanal/zarrs-cache/actions)
+[![CI](https://github.com/luhtfiimanal/zarrs-cache/workflows/CI/badge.svg)](https://github.com/luhtfiimanal/zarrs-cache/actions)
 
 </div>
 
