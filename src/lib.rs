@@ -60,7 +60,7 @@
 //!     ));
 //!
 //! // Automatically warm cache based on patterns
-//! let warmed_count = warmer.warm(|key| async move { 
+//! let warmed_count = warmer.warm(|key| async move {
 //!     // Your data loading logic here
 //!     Some(bytes::Bytes::from("data"))
 //! }).await?;
@@ -121,7 +121,7 @@
 //!
 //! // Check performance stats
 //! let stats = cache.stats();
-//! println!("📊 Hit rate: {:.1}%", 
+//! println!("📊 Hit rate: {:.1}%",
 //!     stats.hits as f64 / (stats.hits + stats.misses) as f64 * 100.0);
 //! # Ok(())
 //! # }

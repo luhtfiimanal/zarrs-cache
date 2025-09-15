@@ -53,8 +53,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                 let mut data = vec![0u8; 8192]; // 8KB chunks
 
                 // Simulate temperature data with some pattern
-                for i in 0..data.len() {
-                    data[i] = ((x + y + z + i) % 256) as u8;
+                for (i, item) in data.iter_mut().enumerate() {
+                    *item = ((x + y + z + i) % 256) as u8;
                 }
 
                 let value = Bytes::from(data);
