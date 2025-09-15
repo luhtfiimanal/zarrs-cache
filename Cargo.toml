@@ -1,0 +1,67 @@
+[package]
+name = "zarrs-cache"
+version = "0.1.0"
+edition = "2021"
+description = "High-performance caching layer for zarrs S3 storage"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/username/zarrs-cache"
+keywords = ["zarr", "cache", "s3", "storage", "performance"]
+categories = ["caching", "filesystem"]
+
+[dependencies]
+# Core zarrs dependency
+zarrs = "0.21"
+zarrs_storage = "0.3"
+
+# Async runtime and utilities
+tokio = { version = "1.0", features = ["full"] }
+tokio-util = "0.7"
+
+# Data handling
+bytes = "1.7"
+serde = { version = "1.0", features = ["derive", "serde_derive"] }
+
+# Caching
+lru = "0.12"
+
+# Error handling
+thiserror = "1.0"
+anyhow = "1.0"
+
+# Filesystem operations
+tempfile = "3.8"
+
+# Compression
+flate2 = "1.0"
+
+# Metrics (optional)
+metrics = { version = "0.21", optional = true }
+
+# Compression (optional) - disabled for now due to C++ dependency
+# zstd = { version = "0.13", optional = true }
+
+# Logging
+tracing = "0.1"
+chrono = { version = "0.4", features = ["serde"] }
+serde_json = "1.0"
+
+# Async trait
+async-trait = "0.1"
+
+# Futures utilities
+futures = "0.3"
+
+[dev-dependencies]
+tokio-test = "0.4"
+criterion = { version = "0.5", features = ["html_reports"] }
+tempfile = "3.8"
+tracing-subscriber = "0.3"
+
+[features]
+default = ["metrics"]
+metrics = ["dep:metrics"]
+# compression = ["dep:zstd"]
+
+[[bench]]
+name = "cache_performance"
+harness = false
