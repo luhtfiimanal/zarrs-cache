@@ -18,7 +18,6 @@ jobs:
         rust:
           - stable
           - beta
-          - 1.77.0  # MSRV (Minimum Supported Rust Version for lock file v4)
     steps:
     - uses: actions/checkout@v4
     - uses: dtolnay/rust-toolchain@stable
@@ -27,6 +26,16 @@ jobs:
     - uses: Swatinem/rust-cache@v2
     - name: Run tests
       run: cargo test --verbose --all-features
+
+  msrv:
+    name: MSRV Check
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: dtolnay/rust-toolchain@1.80.0
+    - uses: Swatinem/rust-cache@v2
+    - name: Check MSRV compatibility
+      run: cargo check --all-features
 
   clippy:
     name: Clippy
