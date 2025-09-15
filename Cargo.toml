@@ -51,6 +51,9 @@ async-trait = "0.1"
 # Futures utilities
 futures = "0.3"
 
+# Constraint rayon-core to compatible version
+rayon-core = "=1.12.1"
+
 [dev-dependencies]
 tokio-test = "0.4"
 criterion = { version = "0.5", features = ["html_reports"] }
