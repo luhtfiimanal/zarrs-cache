@@ -2,10 +2,7 @@ use bytes::Bytes;
 use std::time::Duration;
 use tempfile::TempDir;
 use tokio::time::sleep;
-use zarrs_cache::{
-    Cache, CompressedCache, DeflateCompression, DiskCache, HybridCache, HybridCacheConfig,
-    LruMemoryCache,
-};
+use zarrs_cache::{Cache, CompressedCache, DeflateCompression, DiskCache, LruMemoryCache};
 
 #[tokio::test]
 async fn test_lru_memory_cache_basic_operations() {

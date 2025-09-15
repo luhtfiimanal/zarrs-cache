@@ -3,8 +3,8 @@ name = "zarrs-cache"
 version = "0.1.0"
 edition = "2021"
 description = "High-performance caching layer for zarrs S3 storage"
-license = "MIT OR Apache-2.0"
-repository = "https://github.com/username/zarrs-cache"
+license = "MIT"
+repository = "https://github.com/luthfiimanal/zarrs-cache"
 keywords = ["zarr", "cache", "s3", "storage", "performance"]
 categories = ["caching", "filesystem"]
 
