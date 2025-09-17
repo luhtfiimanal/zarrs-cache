@@ -63,8 +63,20 @@ impl DiskCache {
     }
 
     fn initialize_from_disk(&self) -> Result<(), CacheError> {
-        // This would scan the cache directory and rebuild the index
-        // For now, we'll start with an empty cache
+        // Clean slate approach: remove all existing cache files on startup
+        // This prevents dangling files and ensures consistent state
+        // Data source of truth remains in S3, cache is truly temporary
+        if self.cache_dir.exists() {
+            if let Err(e) = fs::remove_dir_all(&self.cache_dir) {
+                tracing::warn!("Failed to clean cache directory on startup: {}", e);
+                // Continue anyway - create_dir_all will handle it
+            }
+        }
+
+        // Recreate clean cache directory
+        fs::create_dir_all(&self.cache_dir)?;
+
+        tracing::info!("Initialized clean disk cache at: {:?}", self.cache_dir);
         Ok(())
     }
 

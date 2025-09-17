@@ -187,7 +187,7 @@ let data = cached_store.get_cached("my_array/chunk_0.0.0").await;
 ┌──────────────────────────────────────────────────────────────┐
 │                    zarrs-cache Architecture                  │
 ├──────────────────────────────────────────────────────────────┤
-│  🔥 Cache Warming    │  📊 Analytics      │  ⚙️ Management   │
+│  🔥 Cache Warming   │  📊 Analytics      │  ⚙️ Management    │
 │  • Predictive       │  • Access Patterns │  • Auto-tuning    │
 │  • Neighbor-based   │  • Performance     │  • Maintenance    │
 │  • Time-aware       │  • Recommendations │  • Monitoring     │
@@ -295,17 +295,57 @@ cargo run --example basic_usage
 
 ## Configuration
 
-### CacheConfig
+### Default Values
+
+All configuration structs implement `Default` with sensible defaults:
+
+#### CacheConfig::default()
+```rust
+CacheConfig {
+    max_memory_size: 100 * 1024 * 1024,  // 100MB
+    disk_cache_dir: None,                 // Memory-only
+    max_disk_size: None,                  // Unlimited
+    ttl: None,                           // No expiration
+    enable_compression: false,           // No compression
+    prefetch_config: None,               // No prefetching
+}
+```
+
+#### HybridCacheConfig::default()
+```rust
+HybridCacheConfig {
+    memory_size: 64 * 1024 * 1024,      // 64MB
+    disk_size: Some(1024 * 1024 * 1024), // 1GB
+    disk_dir: temp_dir().join("zarrs_hybrid_cache"),
+    ttl: None,                           // No expiration
+    promotion_threshold: 0.1,            // 0.1 accesses per second
+    demotion_threshold: Duration::from_secs(300), // 5 minutes
+    maintenance_interval: Duration::from_secs(60), // 1 minute
+}
+```
+
+#### MetricsConfig::default()
+```rust
+MetricsConfig {
+    max_history_size: 1000,              // 1000 snapshots
+    snapshot_interval: Duration::from_secs(60), // 60 seconds
+    track_access_patterns: true,         // Enable pattern tracking
+    track_efficiency: true,              // Enable efficiency tracking
+}
+```
+
+### Usage with Defaults
 
 ```rust
-pub struct CacheConfig {
-    pub max_memory_size: usize,           // Maximum memory cache size in bytes
-    pub disk_cache_dir: Option<PathBuf>,  // Optional disk cache directory
-    pub max_disk_size: Option<u64>,       // Maximum disk cache size in bytes
-    pub ttl: Option<Duration>,            // Time-to-live for cached entries
-    pub enable_compression: bool,         // Enable compression for cached data
-    pub prefetch_config: Option<PrefetchConfig>, // Prefetch strategy configuration
-}
+// Use all defaults
+let config = HybridCacheConfig::default();
+
+// Override specific values
+let config = HybridCacheConfig {
+    memory_size: 128 * 1024 * 1024,  // 128MB instead of 64MB
+    disk_dir: PathBuf::from("/custom/cache/dir"),
+    ..Default::default()  // Use defaults for other fields
+};
 ```
 
 ## Future Enhancements

@@ -18,7 +18,13 @@ pub struct MetricsCollector {
 }
 
 /// Configuration for metrics collection
-#[derive(Debug, Clone)]
+///
+/// # Default Values
+/// - `max_history_size`: 1000 snapshots
+/// - `snapshot_interval`: 60 seconds
+/// - `track_access_patterns`: true
+/// - `track_efficiency`: true
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct MetricsConfig {
     /// Maximum number of performance snapshots to keep
     pub max_history_size: usize,

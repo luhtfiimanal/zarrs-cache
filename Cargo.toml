@@ -1,7 +1,8 @@
 [package]
 name = "zarrs-cache"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2021"
+authors = ["Luthfi Imanal Satrya <luthfi.imanal.satrya@gmail.com>"]
 description = "High-performance caching layer for zarrs S3 storage"
 license = "MIT"
 repository = "https://github.com/luhtfiimanal/zarrs-cache"

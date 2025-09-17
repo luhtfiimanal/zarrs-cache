@@ -55,6 +55,15 @@ impl AccessInfo {
 }
 
 /// Configuration for hybrid cache behavior
+///
+/// # Default Values
+/// - `memory_size`: 64MB
+/// - `disk_size`: 1GB
+/// - `disk_dir`: System temp directory + "zarrs_hybrid_cache"
+/// - `ttl`: None (no expiration)
+/// - `promotion_threshold`: 0.1 accesses per second
+/// - `demotion_threshold`: 300 seconds (5 minutes)
+/// - `maintenance_interval`: 60 seconds (1 minute)
 #[derive(Debug, Clone)]
 pub struct HybridCacheConfig {
     /// Memory cache size in bytes
