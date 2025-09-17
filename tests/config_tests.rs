@@ -10,7 +10,7 @@ fn test_cache_config_default() {
     assert_eq!(config.disk_cache_dir, None);
     assert_eq!(config.max_disk_size, None);
     assert_eq!(config.ttl, None);
-    assert_eq!(config.enable_compression, false);
+    assert!(!config.enable_compression);
     assert_eq!(config.prefetch_config, None);
 }
 
@@ -44,8 +44,8 @@ fn test_metrics_config_default() {
 
     assert_eq!(config.max_history_size, 1000);
     assert_eq!(config.snapshot_interval, Duration::from_secs(60));
-    assert_eq!(config.track_access_patterns, true);
-    assert_eq!(config.track_efficiency, true);
+    assert!(config.track_access_patterns);
+    assert!(config.track_efficiency);
 }
 
 #[test]
@@ -66,7 +66,7 @@ fn test_cache_config_custom_values() {
     assert_eq!(config.disk_cache_dir, Some(PathBuf::from("/custom/cache")));
     assert_eq!(config.max_disk_size, Some(2 * 1024 * 1024 * 1024));
     assert_eq!(config.ttl, Some(Duration::from_secs(3600)));
-    assert_eq!(config.enable_compression, true);
+    assert!(config.enable_compression);
     assert!(config.prefetch_config.is_some());
 
     let prefetch = config.prefetch_config.unwrap();
@@ -105,7 +105,7 @@ fn test_config_with_partial_defaults() {
     };
 
     assert_eq!(config.max_memory_size, 512 * 1024 * 1024);
-    assert_eq!(config.enable_compression, true);
+    assert!(config.enable_compression);
     // These should be defaults
     assert_eq!(config.disk_cache_dir, None);
     assert_eq!(config.max_disk_size, None);
@@ -124,8 +124,8 @@ fn test_metrics_config_custom_values() {
 
     assert_eq!(config.max_history_size, 2000);
     assert_eq!(config.snapshot_interval, Duration::from_secs(30));
-    assert_eq!(config.track_access_patterns, false);
-    assert_eq!(config.track_efficiency, false);
+    assert!(!config.track_access_patterns);
+    assert!(!config.track_efficiency);
 }
 
 #[test]

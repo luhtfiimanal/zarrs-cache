@@ -13,9 +13,9 @@ async fn test_cached_store_operations() {
 
     // Test basic cached store functionality
     assert!(store.cache_stats().hits == 0);
-    assert!(store.has_ttl_support() == false);
-    assert!(store.has_compression() == false);
-    assert!(store.has_disk_cache() == false);
+    assert!(!store.has_ttl_support());
+    assert!(!store.has_compression());
+    assert!(!store.has_disk_cache());
 
     let config = store.config();
     assert_eq!(config.max_memory_size, 100 * 1024 * 1024);
@@ -32,8 +32,8 @@ async fn test_cached_store_with_custom_config() {
     };
     let store = CachedStore::new("test_store", cache, config);
 
-    assert!(store.has_compression() == true);
-    assert!(store.has_disk_cache() == true);
+    assert!(store.has_compression());
+    assert!(store.has_disk_cache());
 }
 
 #[tokio::test]
