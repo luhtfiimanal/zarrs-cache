@@ -130,16 +130,14 @@
 //! ## ✨ Core Features
 //!
 //! - 🚀 **LRU Memory Cache**: Lightning-fast in-memory caching with automatic eviction
-//! - 💾 **Disk Cache**: Persistent storage with TTL support and compression
+//! - 💾 **Disk Cache**: Persistent storage with TTL support
 //! - 🔄 **Hybrid Tiering**: Intelligent promotion/demotion between memory and disk
-//! - 🗜️ **Compression**: Optional deflate compression to reduce storage overhead
 //! - 🔥 **Cache Warming**: Predictive and neighbor-based preloading strategies
 //! - 📊 **Advanced Metrics**: Comprehensive performance monitoring and analytics
 //! - ⚡ **Async Support**: Full async/await support for non-blocking operations
 //! - 🔒 **Thread-Safe**: Safe for concurrent access across multiple threads
 
 pub mod cache;
-pub mod compression;
 pub mod config;
 pub mod error;
 pub mod metrics;
@@ -152,7 +150,6 @@ pub use cache::disk::DiskCache;
 pub use cache::hybrid::{HybridCache, HybridCacheConfig};
 pub use cache::memory::LruMemoryCache;
 pub use cache::{Cache, CacheStats};
-pub use compression::{CompressedCache, Compression, DeflateCompression, NoCompression};
 pub use config::{CacheConfig, PrefetchConfig};
 pub use error::CacheError;
 pub use metrics::{CacheAnalyticsReport, MetricsCollector, MetricsConfig, PerformanceSnapshot};

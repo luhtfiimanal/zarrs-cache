@@ -2,7 +2,7 @@ use bytes::Bytes;
 use std::time::Duration;
 use tempfile::TempDir;
 use tokio::time::sleep;
-use zarrs_cache::{Cache, CompressedCache, DeflateCompression, DiskCache, LruMemoryCache};
+use zarrs_cache::{Cache, DiskCache, LruMemoryCache};
 
 #[tokio::test]
 async fn test_lru_memory_cache_basic_operations() {
@@ -140,26 +140,6 @@ async fn test_disk_cache_with_ttl() {
 
     // Value should be expired
     assert!(cache.get(&key).await.is_none());
-}
-
-#[tokio::test]
-async fn test_compressed_cache() {
-    let base_cache = LruMemoryCache::new(1024);
-    let compression = DeflateCompression::new();
-    let cache = CompressedCache::new(base_cache, compression);
-
-    let key = "test_key".to_string();
-    let value = Bytes::from("test_value_that_should_be_compressed");
-
-    // Test set and get with compression
-    cache.set(&key, value.clone()).await.unwrap();
-    assert_eq!(cache.get(&key).await, Some(value.clone()));
-
-    // Test stats - compressed cache forwards stats from underlying cache
-    let stats = cache.stats();
-    assert_eq!(stats.hits, 1);
-    assert_eq!(stats.misses, 0); // No miss since we only did get after set
-    assert_eq!(stats.entry_count, 1);
 }
 
 #[tokio::test]

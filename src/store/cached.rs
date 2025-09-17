@@ -49,11 +49,6 @@ where
         self.config.ttl.is_some()
     }
 
-    /// Check if compression is enabled
-    pub fn has_compression(&self) -> bool {
-        self.config.enable_compression
-    }
-
     /// Check if disk caching is configured
     pub fn has_disk_cache(&self) -> bool {
         self.config.disk_cache_dir.is_some()

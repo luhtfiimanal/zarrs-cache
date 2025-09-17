@@ -2,10 +2,7 @@ use bytes::Bytes;
 // use std::path::PathBuf;
 use std::time::Duration;
 use tempfile::TempDir;
-use zarrs_cache::{
-    Cache, CacheConfig, CachedStore, CompressedCache, DeflateCompression, DiskCache,
-    LruMemoryCache, PrefetchConfig,
-};
+use zarrs_cache::{Cache, CacheConfig, CachedStore, DiskCache, LruMemoryCache, PrefetchConfig};
 
 // Mock storage backend for demonstration
 #[derive(Clone)]
@@ -106,37 +103,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("📊 Disk cache stats: {:?}", disk_cache.stats());
     println!("📁 Cache directory: {:?}\n", temp_dir.path());
 
-    // Demo 3: Compressed Cache
-    println!("🗜️  Demo 3: Compressed Cache");
-    println!("===========================");
-
-    let base_cache = LruMemoryCache::new(2048);
-    let compression = DeflateCompression::new();
-    let compressed_cache = CompressedCache::new(base_cache, compression);
-
-    let large_data = Bytes::from("x".repeat(1000)); // 1KB of data
-    let compress_key = "large_chunk".to_string();
-
-    println!("📏 Original data size: {} bytes", large_data.len());
-
-    compressed_cache
-        .set(&compress_key, large_data.clone())
-        .await?;
-    println!("✅ Stored with compression");
-
-    let decompressed = compressed_cache.get(&compress_key).await.unwrap();
-    println!(
-        "🔍 Retrieved and decompressed: {} bytes",
-        decompressed.len()
-    );
-    println!("✅ Data integrity: {}", large_data == decompressed);
-    println!(
-        "📊 Compressed cache stats: {:?}\n",
-        compressed_cache.stats()
-    );
-
-    // Demo 4: CachedStore with Configuration
-    println!("⚙️  Demo 4: CachedStore with Advanced Configuration");
+    // Demo 3: CachedStore with Advanced Configuration
+    println!("⚙️  Demo 3: CachedStore with Advanced Configuration");
     println!("================================================");
 
     let config = CacheConfig {
@@ -144,7 +112,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         max_disk_size: Some(1024 * 1024),
         disk_cache_dir: Some(temp_dir.path().to_path_buf()),
         ttl: Some(Duration::from_secs(30)),
-        enable_compression: true,
         prefetch_config: Some(PrefetchConfig {
             neighbor_chunks: 2,
             max_queue_size: 10,
@@ -158,13 +125,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         config.ttl,
     )?;
 
-    let compressed_advanced = CompressedCache::new(advanced_cache, DeflateCompression::new());
-    let cached_store = CachedStore::new(storage.clone(), compressed_advanced, config.clone());
+    let cached_store = CachedStore::new(storage.clone(), advanced_cache, config.clone());
 
     println!("✅ Created CachedStore with:");
     println!("   - Disk caching: {}", cached_store.has_disk_cache());
     println!("   - TTL support: {}", cached_store.has_ttl_support());
-    println!("   - Compression: {}", cached_store.has_compression());
 
     // Test caching behavior
     let test_key = "array1/chunk_0.0.0";

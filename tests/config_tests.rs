@@ -10,7 +10,6 @@ fn test_cache_config_default() {
     assert_eq!(config.disk_cache_dir, None);
     assert_eq!(config.max_disk_size, None);
     assert_eq!(config.ttl, None);
-    assert!(!config.enable_compression);
     assert_eq!(config.prefetch_config, None);
 }
 
@@ -55,7 +54,6 @@ fn test_cache_config_custom_values() {
         disk_cache_dir: Some(PathBuf::from("/custom/cache")),
         max_disk_size: Some(2 * 1024 * 1024 * 1024), // 2GB
         ttl: Some(Duration::from_secs(3600)),        // 1 hour
-        enable_compression: true,
         prefetch_config: Some(PrefetchConfig {
             neighbor_chunks: 5,
             max_queue_size: 20,
@@ -66,7 +64,6 @@ fn test_cache_config_custom_values() {
     assert_eq!(config.disk_cache_dir, Some(PathBuf::from("/custom/cache")));
     assert_eq!(config.max_disk_size, Some(2 * 1024 * 1024 * 1024));
     assert_eq!(config.ttl, Some(Duration::from_secs(3600)));
-    assert!(config.enable_compression);
     assert!(config.prefetch_config.is_some());
 
     let prefetch = config.prefetch_config.unwrap();
@@ -100,12 +97,10 @@ fn test_config_with_partial_defaults() {
     // Test using ..Default::default() syntax
     let config = CacheConfig {
         max_memory_size: 512 * 1024 * 1024, // Override memory size
-        enable_compression: true,           // Override compression
         ..Default::default()                // Use defaults for everything else
     };
 
     assert_eq!(config.max_memory_size, 512 * 1024 * 1024);
-    assert!(config.enable_compression);
     // These should be defaults
     assert_eq!(config.disk_cache_dir, None);
     assert_eq!(config.max_disk_size, None);
@@ -136,7 +131,6 @@ fn test_config_serialization_compatibility() {
         disk_cache_dir: Some(PathBuf::from("/test/cache")),
         max_disk_size: Some(1024 * 1024 * 1024),
         ttl: Some(Duration::from_secs(1800)),
-        enable_compression: true,
         prefetch_config: Some(PrefetchConfig {
             neighbor_chunks: 3,
             max_queue_size: 15,
@@ -163,10 +157,7 @@ fn test_config_serialization_compatibility() {
         original_config.max_disk_size
     );
     assert_eq!(deserialized_config.ttl, original_config.ttl);
-    assert_eq!(
-        deserialized_config.enable_compression,
-        original_config.enable_compression
-    );
+    assert_eq!(deserialized_config.ttl, original_config.ttl);
 
     let orig_prefetch = original_config.prefetch_config.unwrap();
     let deser_prefetch = deserialized_config.prefetch_config.unwrap();

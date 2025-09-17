@@ -59,7 +59,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("  Disk cache dir: {:?}", cache_config.disk_cache_dir);
     println!("  Max disk size: {:?}", cache_config.max_disk_size);
     println!("  TTL: {:?}", cache_config.ttl);
-    println!("  Enable compression: {}", cache_config.enable_compression);
     println!("  Prefetch config: {:?}", cache_config.prefetch_config);
     println!();
 

@@ -9,7 +9,6 @@ use std::time::Duration;
 /// - `disk_cache_dir`: None (memory-only)
 /// - `max_disk_size`: None (unlimited)
 /// - `ttl`: None (no expiration)
-/// - `enable_compression`: false
 /// - `prefetch_config`: None (no prefetching)
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CacheConfig {
@@ -24,9 +23,6 @@ pub struct CacheConfig {
 
     /// Time-to-live for cached entries
     pub ttl: Option<Duration>,
-
-    /// Enable compression for cached data
-    pub enable_compression: bool,
 
     /// Prefetch strategy configuration
     pub prefetch_config: Option<PrefetchConfig>,
@@ -62,7 +58,6 @@ impl Default for CacheConfig {
             disk_cache_dir: None,
             max_disk_size: None,
             ttl: None,
-            enable_compression: false,
             prefetch_config: None,
         }
     }

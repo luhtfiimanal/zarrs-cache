@@ -2,6 +2,13 @@
 /target/
 Cargo.lock
 
+# Environment variables
+.env
+
+# Test data and cache directories
+/tmp/zarrs_*
+/cache_test_*
+
 # IDE files
 .vscode/
 .idea/

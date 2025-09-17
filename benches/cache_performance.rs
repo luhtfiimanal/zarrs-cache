@@ -4,8 +4,8 @@ use std::time::Duration;
 use tempfile::TempDir;
 use tokio::runtime::Runtime;
 use zarrs_cache::{
-    Cache, CompressedCache, DeflateCompression, DiskCache, HybridCache, HybridCacheConfig,
-    LruMemoryCache, MetricsCollector, MetricsConfig,
+    Cache, DiskCache, HybridCache, HybridCacheConfig, LruMemoryCache, MetricsCollector,
+    MetricsConfig,
 };
 
 fn memory_cache_benchmarks(c: &mut Criterion) {
@@ -163,51 +163,6 @@ fn hybrid_cache_benchmarks(c: &mut Criterion) {
     group.finish();
 }
 
-fn compression_benchmarks(c: &mut Criterion) {
-    let rt = Runtime::new().unwrap();
-
-    let mut group = c.benchmark_group("compression");
-
-    // Test compression with different data patterns
-    group.bench_function("compressible_data", |b| {
-        b.iter(|| {
-            rt.block_on(async {
-                let base_cache = LruMemoryCache::new(10 * 1024 * 1024);
-                let cache = CompressedCache::new(base_cache, DeflateCompression::new());
-                let key = "test_key".to_string();
-                // Highly compressible data (repeated pattern)
-                let value = Bytes::from(vec![42u8; 10 * 1024]);
-
-                cache.set(&key, value.clone()).await.unwrap();
-                let result = cache.get(&key).await;
-                black_box(result);
-            })
-        })
-    });
-
-    group.bench_function("random_data", |b| {
-        b.iter(|| {
-            rt.block_on(async {
-                let base_cache = LruMemoryCache::new(10 * 1024 * 1024);
-                let cache = CompressedCache::new(base_cache, DeflateCompression::new());
-                let key = "test_key".to_string();
-                // Random data (less compressible)
-                let mut value_data = vec![0u8; 10 * 1024];
-                for (i, byte) in value_data.iter_mut().enumerate() {
-                    *byte = (i % 256) as u8;
-                }
-                let value = Bytes::from(value_data);
-
-                cache.set(&key, value.clone()).await.unwrap();
-                let result = cache.get(&key).await;
-                black_box(result);
-            })
-        })
-    });
-
-    group.finish();
-}
-
 fn concurrent_access_benchmarks(c: &mut Criterion) {
     let rt = Runtime::new().unwrap();
 
@@ -327,7 +282,6 @@ criterion_group!(
     memory_cache_benchmarks,
     disk_cache_benchmarks,
     hybrid_cache_benchmarks,
-    compression_benchmarks,
     concurrent_access_benchmarks,
     metrics_overhead_benchmarks,
     cache_eviction_benchmarks

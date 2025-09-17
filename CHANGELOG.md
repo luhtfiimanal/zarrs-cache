@@ -7,6 +7,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.3] - 2025-09-17
+
+### Removed
+- **BREAKING**: Removed compression module entirely (`CompressedCache`, `DeflateCompression`, `NoCompression`)
+- **BREAKING**: Removed `enable_compression` field from `CacheConfig`
+- **BREAKING**: Removed `has_compression()` method from `CachedStore`
+- Removed `flate2` dependency from `Cargo.toml`
+
+### Changed
+- **Simplified API**: Library now focuses purely on S3 caching without redundant compression
+- **Improved Performance**: Eliminated unnecessary compression/decompression overhead
+- **Cleaner Documentation**: Updated all docs to remove compression references
+- **Reduced Complexity**: Removed ~200 lines of compression-related code
+
+### Rationale
+- Zarr already handles compression optimally at the storage level (blosc, gzip, lz4, etc.)
+- Cache-level compression was redundant and often counterproductive (double compression)
+- Compressing already-compressed zarr chunks typically made data larger, not smaller
+- Removal simplifies the API and eliminates a common source of confusion
+- Library now has a clear, focused purpose: intelligent S3 caching for zarr data
+
+### Migration Guide
+- Remove any usage of `CompressedCache`, `DeflateCompression`, or `NoCompression`
+- Remove `enable_compression: true/false` from `CacheConfig` structs
+- Remove calls to `has_compression()` method
+- Zarr compression should be configured at the array creation level, not cache level
+
 ## [0.1.2] - 2025-09-17
 
 ### Fixed
