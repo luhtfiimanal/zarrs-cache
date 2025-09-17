@@ -207,7 +207,6 @@ cargo bench
 # Run specific benchmark groups
 cargo bench -- memory_cache
 cargo bench -- hybrid_cache
-cargo bench -- compression
 ```
 
 ### Key Performance Metrics
@@ -215,7 +214,6 @@ cargo bench -- compression
 - **Memory Cache**: ~1-5μs for get/set operations
 - **Disk Cache**: ~100-500μs for get/set operations  
 - **Hybrid Cache**: ~1-10μs (memory hits) / ~100-500μs (disk hits)
-- **Compression**: 2-10x space savings depending on data compressibility
 
 ### Optimization Recommendations
 
@@ -224,7 +222,6 @@ Based on metrics analysis, the system provides automatic recommendations:
 - **High Miss Rate**: Increase cache size or adjust eviction policies
 - **Poor Spatial Locality**: Enable neighbor-based prefetching
 - **Low Promotion Effectiveness**: Adjust promotion thresholds
-- **High Latency**: Consider compression trade-offs or memory allocation
 
 ## Best Practices
 

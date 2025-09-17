@@ -11,9 +11,6 @@ pub enum CacheError {
     #[error("Serialization error: {0}")]
     Serialization(String),
 
-    #[error("Compression error: {0}")]
-    Compression(String),
-
     #[error("Invalid cache key: {0}")]
     InvalidKey(String),
 }

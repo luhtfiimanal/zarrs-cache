@@ -36,9 +36,6 @@ tempfile = "3.8"
 # Metrics (optional)
 metrics = { version = "0.21", optional = true }
 
-# Compression (optional) - disabled for now due to C++ dependency
-# zstd = { version = "0.13", optional = true }
-
 # Logging
 tracing = "0.1"
 chrono = { version = "0.4", features = ["serde"] }
@@ -65,7 +62,6 @@ default = []
 integration-tests = []
 s3-tests = ["integration-tests"]
 metrics = ["dep:metrics"]
-# compression = ["dep:zstd"]
 
 [[bench]]
 name = "cache_performance"

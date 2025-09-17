@@ -63,7 +63,7 @@
     │  │  File System Layout:                                                        │    │
     │  │  /cache_dir/                                                                │    │
     │  │  ├── chunks/                                                                │    │
-    │  │  │   ├── hash_abc123.cache  ← Compressed chunk data                         │    │
+    │  │  │   ├── hash_abc123.cache  ← chunk data                                    │    │
     │  │  │   ├── hash_def456.cache                                                  │    │
     │  │  │   └── ...                                                                │    │
     │  │  ├── metadata/                                                              │    │
@@ -72,8 +72,6 @@
     │  │  └── index.db               ← Cache index and analytics                     │    │
     │  │                                                                             │    │
     │  │  Features:                                                                  │    │
-    │  │  • Persistent across restarts                                               │    │
-    │  │  • Compression (gzip/lz4)                                                   │    │
     │  │  • TTL expiration                                                           │    │
     │  │  • Size-based eviction                                                      │    │
     │  └─────────────────────────────────────────────────────────────────────────────┘    │
@@ -225,7 +223,7 @@ The `CachedStore` implements all zarrs storage traits (`ReadableStorage`, `Writa
 - **`delete(key)`** → Remove from S3 and invalidate caches
 
 ### 3. **Chunk Storage Strategy**
-- **Chunks** stored as compressed binary data
+- **Chunks** stored as binary data
 - **Metadata** stored as JSON with high priority
 - **Keys** transformed to filesystem-safe names
 - **TTL** applied based on access patterns

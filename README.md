@@ -97,10 +97,9 @@ for rec in report.recommendations {
 
 ### ✨ **Core Features**
 - 🚀 **LRU Memory Cache**: Lightning-fast in-memory caching with automatic eviction
-- 💾 **Disk Cache**: Persistent storage with TTL support and compression
+- 💾 **Disk Cache**: Persistent storage with TTL support
 - 🔄 **Hybrid Tiering**: Intelligent promotion/demotion between memory and disk
-- 🗜️ **Compression**: Optional deflate compression to reduce storage overhead
-- 🔥 **Cache Warming**: Predictive and neighbor-based preloading strategies
+-  **Cache Warming**: Predictive and neighbor-based preloading strategies
 - 📊 **Advanced Metrics**: Comprehensive performance monitoring and analytics
 - ⚡ **Async Support**: Full async/await support for non-blocking operations
 - 🔒 **Thread-Safe**: Safe for concurrent access across multiple threads
@@ -201,9 +200,6 @@ let data = cached_store.get_cached("my_array/chunk_0.0.0").await;
 │  │   • Hot Data    │   & Demotion │   • Cold Data           ││
 │  └─────────────────┘              └─────────────────────────┘│
 ├──────────────────────────────────────────────────────────────┤
-│                      🗜️ Compression Layer                    │
-│              • Deflate  • Transparent  • Configurable        │
-├──────────────────────────────────────────────────────────────┤
 │                     🔌 Storage Interface                     │
 │           • S3  • Local FS  • HTTP  • Custom Backends        │
 └──────────────────────────────────────────────────────────────┘
@@ -217,7 +213,7 @@ Please read [DATAFLOW_DIAGRAM.md](docs/DATAFLOW_DIAGRAM.md) for more details. An
 |-----------|---------|--------------|
 | **🔌 Cache Trait** | Generic caching interface | Async, thread-safe, extensible |
 | **💾 LruMemoryCache** | Lightning-fast memory cache | LRU eviction, TTL support |
-| **💿 DiskCache** | Persistent storage cache | File-based, compression, TTL |
+| **💿 DiskCache** | Persistent storage cache | File-based, TTL |
 | **🧠 HybridCache** | Intelligent tiering | Auto promotion/demotion |
 | **🏪 CachedStore** | Storage wrapper | Transparent caching layer |
 | **📊 MetricsCollector** | Performance monitoring | Real-time analytics |
@@ -389,7 +385,6 @@ let config = HybridCacheConfig {
 
 - **Disk-based caching**: Persistent cache storage
 - **Hybrid caching**: Memory + disk cache combination
-- **Compression**: Optional data compression for cache entries
 - **TTL support**: Time-based cache expiration
 
 ## 📄 License

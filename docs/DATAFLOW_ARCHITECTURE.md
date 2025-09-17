@@ -13,8 +13,8 @@ The zarrs-cache library acts as a transparent caching layer between zarrs applic
 │   Application   │───▶│      zarrs      │───▶│   S3 Storage    │
 │                 │    │    Library      │    │                 │
 │ - Read chunks   │    │ - Decode/Encode │    │ - Object store  │
-│ - Write arrays  │    │ - Compression   │    │ - Network I/O   │
-│ - Query data    │◀───│ - Metadata      │◀───│ - High latency  │
+│ - Write arrays  │    │ - Metadata      │    │ - Network I/O   │
+│ - Query data    │◀───│                 │◀───│ - High latency  │
 └─────────────────┘    └─────────────────┘    └─────────────────┘
 ```
 
@@ -31,8 +31,8 @@ The zarrs-cache library acts as a transparent caching layer between zarrs applic
 │   Application   │───▶│      zarrs      │───▶│  zarrs-cache    │───▶│   S3 Storage    │
 │                 │    │    Library      │    │   (CachedStore) │    │                 │
 │ - Read chunks   │    │ - Decode/Encode │    │                 │    │ - Object store  │
-│ - Write arrays  │    │ - Compression   │    │ ┌─────────────┐ │    │ - Network I/O   │
-│ - Query data    │◀───│ - Metadata      │◀───│ │ CACHE LAYER │ │    │ - Reduced load  │
+│ - Write arrays  │    │ - Metadata      │    │ ┌─────────────┐ │    │ - Network I/O   │
+│ - Query data    │◀───│                 │◀───│ │ CACHE LAYER │ │    │ - Reduced load  │
 └─────────────────┘    └─────────────────┘    │ │             │ │    └─────────────────┘
                                               │ │  Memory     │ │             ▲
                                               │ │    +        │ │             │
@@ -81,7 +81,7 @@ zarrs-cache intercepts these key storage operations:
 │                    Memory Cache (LRU)                       │
 ├─────────────────────────────────────────────────────────────┤
 │  Key: "/array/chunks/0.0.0"                                 │
-│  Value: [compressed_chunk_data]                             │
+│  Value: [chunk_data]                                        │
 │  Metadata: {size: 1024, last_access: timestamp, hits: 5}    │
 ├─────────────────────────────────────────────────────────────┤
 │  Key: "/array/.zarray"                                      │
